@@ -1,4 +1,4 @@
-import pygame
+import pygame, map_gen
 pygame.init()
 
 
@@ -24,9 +24,13 @@ def drawGame():
     for i in range(N):
         map_list[i] = [0]*M
 
-    def readFile(file_path, map_list, N, M):
+    def readFile(file_path, map_list, flag = 0):
         count = 0
-        map_file = open(file_path, 'r')
+        if flag == 0:
+            map_file = open(file_path, 'r')
+        else:
+            map_gen.main()
+            map_file = open('map_gen.txt', 'r')
         s = map_file.readline()
         s = s.split()
         N, M = int(s[0]), int(s[1])
@@ -107,7 +111,11 @@ def drawGame():
                 player_i = new_i
                 player_j = new_j
                 level += 1
-                map_list, prizeCount, N, M = readFile('karta' + str(level)+'.txt', map_list, N, M)
+                if level <= 3:
+                    map_list, prizeCount, N, M = readFile('karta' + str(level)+'.txt', map_list, 0)
+                else:
+                    map_list, prizeCount, N, M = readFile(None, None, 1)
+
                 score = 0
             else:
                 new_i = player_i
@@ -121,7 +129,7 @@ def drawGame():
     new_i = 0 #кординаты клетки, куда персонаж хочет походить
     new_j = 0
     level = 1
-    map_list, prizeCount, N, M = readFile('karta1.txt', map_list,N, M)
+    map_list, prizeCount, N, M = readFile('karta1.txt', map_list, 0)
 
     while run:
         for event in pygame.event.get():
