@@ -1,5 +1,7 @@
 import pygame, maze, help, about
 pygame.init()
+pygame.mixer.music.load("NG.mp3")
+pygame.mixer.music.play(-1)
 
 from  pygame.color import THECOLORS
 my_font = pygame.font.SysFont('Calibri', 40, bold=False, italic=False)
@@ -7,7 +9,7 @@ top = [60,210,360]
 left = 100
 width = 200
 height = 80
-menu_text = ['Game', 'Help', ' About']
+menu_text = ['Game', 'Help', 'About']
 screenX = 850
 screenY = 800
 screen = pygame.display.set_mode([screenX, screenY])
@@ -33,7 +35,7 @@ while run :
                     k = 10   #создаём кнопки
             if k == 0:
                 print('Game')
-                maze.drawGame()
+                maze.drawGame(my_font)
             elif k == 1:
                 print('Help')
                 help.drawHelp()

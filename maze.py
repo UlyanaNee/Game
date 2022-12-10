@@ -1,7 +1,9 @@
 import pygame, map_gen
 pygame.init()
 
-def drawGame():
+# font = pygame.font.SysFont(None, 48)
+
+def drawGame(font):
 
     score = 0
     coin_count = 0
@@ -52,10 +54,12 @@ def drawGame():
     # 'w' перезапись файла
     # 'a' дозапись в конец файла
 
-    def drawMap():
+    def drawMap(score):
         player_i, player_j = 0, 0
+        img = font.render(str(score), True, (255, 0, 0))
         for i in range(N):
             for j in range(N):
+                screen.blit(img, (20, 20))
                 x = dx * j
                 y = dy * i
                 if (map_list[i][j] == 0): #стена
@@ -71,6 +75,11 @@ def drawGame():
                     screen.blit(prize, [x, y])
                 elif (map_list[i][j] == 4):  #дверь
                     screen.blit(door, [x, y])
+
+        # img = font.render(str(score), True, (255, 0, 0))
+
+        # screen.blit(img, (20, 20))
+
         return  (player_i, player_j)
 
     def analysis_key(player_i, player_j, new_i, new_j):
@@ -133,6 +142,8 @@ def drawGame():
     level = 1
     mmap_list, prizeCount, N, M = readFile('karta' + str(level)+'.txt', map_list, 0)
 
+    score = 0
+
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -140,7 +151,9 @@ def drawGame():
             elif event.type == pygame.KEYDOWN:
                 new_i, new_j = analysis_key(player_i, player_j, new_i, new_j)
                 player_i, player_j, new_i, new_j, score, prizeCount, level, N, M = moveMap(player_i, player_j, new_i, new_j, map_list, score, prizeCount,level, N, M)
-        player_i, player_j = drawMap()
+
+
+        player_i, player_j = drawMap(score)
         pygame.display.flip()
     screen = pygame.display.set_mode([640, 640])
     #pygame.quit()
